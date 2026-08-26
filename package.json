@@ -1,17 +1,12 @@
 {
   "name": "elysium",
   "version": "1.0.0",
-  "description": "Elysium - Sleeping Empire Roguelite Architecture",
-  "main": "index.js",
+  "description": "Elysium - Sleeping Empire Roguelite",
   "scripts": {
     "build": "quartz build",
-    "start": "quartz build --serve",
-    "deploy": "quartz build && gh-pages -d public"
+    "start": "quartz build --serve"
   },
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1"
-  },
-  "devDependencies": {
-    "gh-pages": "^6.1.1"
+    "quartz": "latest"
   }
 }
