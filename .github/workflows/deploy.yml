@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Build Quartz
-        run: npx quartz build
+        run: ./node_modules/.bin/quartz build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
