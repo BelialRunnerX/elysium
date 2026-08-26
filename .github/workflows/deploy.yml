@@ -11,22 +11,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout site content
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          path: site
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
       - name: Checkout Quartz
         uses: actions/checkout@v4
         with:
           repository: jackyzha0/quartz
           path: quartz
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
 
       - name: Install Quartz dependencies
         run: cd quartz && npm install
