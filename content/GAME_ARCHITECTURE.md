@@ -12,8 +12,13 @@ See also: [[ARCHITECTURE_PSEUDOCODE]], [[ECS_Overview]]
 
 - **Entities** are simple IDs.
 - **Components** hold all data (Position, Health, Armor, Weapon, etc.).
-- **Systems** contain all logic (Movement System, Combat System, Loot System, etc.).
-- Systems only operate on entities that have the components they require.
+- **Systems** contain all logic (Movement System, Combat System, Loot System, Rendering System, etc.).
+- Systems only operate on entities that have the required components.
+
+## Component Attachment Rules
+
+- **Irrelevant components** are **not attached** to an entity.
+- **Optional components** may be attached but can hold a `null` value when not in use.
 
 ## Major Entity Types
 
@@ -21,6 +26,7 @@ See also: [[ARCHITECTURE_PSEUDOCODE]], [[ECS_Overview]]
 - [[NPC]]
 - [[Planet]]
 - [[Star]]
+- [[Structures]]
 
 ## Major Component Categories
 

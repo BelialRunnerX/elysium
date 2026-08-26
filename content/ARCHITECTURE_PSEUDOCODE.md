@@ -14,8 +14,6 @@ Universe
 
 **Key Principle**: Systems operate on entities that have the required components. This allows maximum flexibility and decoupling.
 
----
-
 ## 2. Core Components
 
 ### 2.1 Position Component
@@ -29,8 +27,6 @@ struct Position {
 
 **Explanation**: Almost every physical object in the game has a `Position` component. This allows the Movement System, Rendering System, and Collision System to all work on the same data.
 
----
-
 ### 2.2 Renderable Component
 
 ```pseudo
@@ -41,42 +37,36 @@ struct Renderable {
 }
 ```
 
-**Explanation**: Controls how an entity appears on screen. The `layer` helps with draw order (stars behind planets, UI on top, etc.).
-
----
+**Explanation**: Controls how an entity appears on screen. The `layer` helps with draw order.
 
 ### 2.3 Planet Component
 
 ```pseudo
 struct Planet {
     float planetNess
-    array<float, 20> mineralPercentages   // 20 sci-fi minerals
+    array<float, 20> mineralPercentages
 }
 ```
 
-**Explanation**: Stores the core data that defines a planet. The `mineralPercentages` array is the source of truth for loot generation and resource systems.
-
----
+**Explanation**: Stores the core data that defines a planet. The `mineralPercentages` array is the source of truth for loot generation.
 
 ### 2.4 Armor Component
 
 ```pseudo
 struct Armor {
     string name
-    int tier                    // 0 = Common ... 4 = Legendary
+    int tier
     float armorFlat
     float armorPercent
     float healthFlat
     float healthPercent
     float movementSpeedPercent
-    int element                 // 0 = Void, 1 = Plasma, etc.
-    array<Rune> runes           // 0–3 runes
+    int element
+    array<Rune> runes
 }
 ```
 
-**Explanation**: Armor is not a class — it is a component. Any entity (Player, NPC, Enemy) can have an `Armor` component. The stats are split into flat and percentage values so systems can apply them correctly.
-
----
+**Explanation**: Armor is a component. Any entity can have it. Stats are split into flat and percentage values.
 
 ### 2.5 Weapon Component
 
@@ -91,9 +81,7 @@ struct Weapon {
 }
 ```
 
-**Explanation**: Similar to armor. The `element` field is critical for the combat system to determine bonuses against different armor types.
-
----
+**Explanation**: Similar to armor. The `element` field is critical for combat calculations.
 
 ### 2.6 Psionic Component
 
@@ -106,55 +94,36 @@ struct Psionic {
 }
 ```
 
-**Explanation**: Psionics are treated as another form of "equipment" or ability. They follow the same elemental rules as weapons and armor.
+**Explanation**: Psionics are treated as another form of ability/equipment.
 
----
+## 3. Component Attachment Rules
 
-## 3. Systems and Their Interactions
+- **Irrelevant components** are **not attached**.
+- **Optional components** may be attached but can be set to `null` when not in use.
 
-### 3.1 Combat System
+## 4. Systems and Their Interactions
+
+### 4.1 Combat System
 
 ```pseudo
 function resolveAttack(attacker, target):
     if attacker has Weapon and target has Armor:
-        weapon = attacker.get<Weapon>()
-        armor = target.get<Armor>()
-        
-        damage = weapon.damageFlat * (1 + weapon.damagePercent)
-        
-        if weapon.element != armor.element:
-            damage *= 1.25                    // Advantage
-        
-        if weapon.element == armor.element:
-            damage *= 0.75                    // Disadvantage
-        
+        // Calculate damage with elemental modifiers
         // Apply armor reduction
-        effectiveArmor = armor.armorFlat * (1 + armor.armorPercent)
-        finalDamage = max(1, damage - effectiveArmor)
-        
-        target.health -= finalDamage
+        // Apply critical hits if applicable
 ```
 
-**Explanation**: The combat system only runs on entities that have both `Weapon` and `Armor` components (or at least the attacker has a weapon). The elemental mismatch creates the advantage/disadvantage.
-
----
-
-### 3.2 Loot Generation System
+### 4.2 Loot Generation System
 
 ```pseudo
 function generateLoot(planet):
     minerals = planet.get<Minerals>()
-    
     for each mineral in minerals:
         if mineral.percentage > MINERAL_THRESHOLD:
             createLootItem(mineral)
 ```
 
-**Explanation**: Loot is generated based on the minerals present on a planet. This ties the procedural generation directly to the item system.
-
----
-
-### 3.3 Movement System
+### 4.3 Movement System
 
 ```pseudo
 function moveEntity(entity, dx, dy):
@@ -164,16 +133,11 @@ function moveEntity(entity, dx, dy):
         pos.y += dy
 ```
 
-**Explanation**: The movement system only affects entities with a `Position` component. Effects like "Immobilized" are handled by adding/removing components.
-
----
-
-## 4. Noise-Based Universe Generation
+## 5. Noise-Based Universe Generation
 
 ```pseudo
 function generateUniverse(seed):
     noise = FastNoise(seed)
-    
     for x in universeWidth:
         for y in universeHeight:
             starValue   = noise.GetValue(x, y, 0)
@@ -186,11 +150,7 @@ function generateUniverse(seed):
                 createPlanetEntity(x, y, planetValue)
 ```
 
-**Explanation**: The multi-dimensional noise allows us to layer different types of data (stars, planets, minerals) on the same coordinate space while keeping them independent.
-
----
-
-## 5. Rendering System (2D Map)
+## 6. Rendering System (2D Map)
 
 ```pseudo
 function renderMap():
@@ -201,21 +161,8 @@ function renderMap():
             drawPlanetSprite(entity.position, entity.get<Planet>().minerals)
 ```
 
-**Explanation**: The rendering system queries for entities that have both `Position` and `Renderable`. It then checks what other components they have to decide how to draw them.
+## 7. Condition-Based System Interaction
 
----
+In this architecture, the presence or absence of components determines which systems affect an entity. This creates a natural "hyperlink" between components and systems.
 
-## 6. Condition-Based System Interaction (Hyperlinks)
-
-In this architecture, **hyperlinks between components** represent conditions under which systems interact:
-
-- `Weapon` + `Armor` → Combat System runs
-- `Planet` + `Minerals` → Loot System runs
-- `Position` + `Renderable` → Rendering System runs
-- `Armor` + `Psionic` → Potential synergy or resistance checks
-
-This is the core power of ECS — systems only activate when the required components are present.
-
----
-
-*This document serves as the detailed pseudo code architecture for Elysium.*
+See also: [[GAME_ARCHITECTURE]], [[Player_Character]], [[Armor]], [[Weapon]], [[Psionic]]
