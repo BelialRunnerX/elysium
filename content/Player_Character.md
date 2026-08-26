@@ -5,7 +5,7 @@
 
 ## Overview
 
-The player character is an ambitious wanderer with no fixed allegiance. They may have started as a trader, mercenary, explorer, or exile, but their defining trait is the drive to grow stronger — through wealth, technology, psionics, or political connections.
+The player character is an ambitious wanderer with no fixed allegiance. Their defining trait is the drive to grow stronger through wealth, technology, psionics, or political connections.
 
 ## Components
 
@@ -15,12 +15,7 @@ The Player Character entity is composed of the following components:
 - **Position**
 - **Health**
 - **Power** (Psionic / Energy resource)
-- **Stats**
-  - Strength
-  - Reflexes
-  - Intelligence
-  - Willpower
-  - Presence
+- **Stats** (Strength, Reflexes, Intelligence, Willpower, Presence)
 
 ### Equipment Components
 - **Armor**
@@ -32,7 +27,7 @@ The Player Character entity is composed of the following components:
 - **Resources** (Credits, Food, Influence, Minerals)
 - **Scriptures** (collected lore fragments)
 
-### Optional / Situational Components
+### Optional Components
 - **Status Effects**
 - **Faction Reputation**
 - **Active Quests**

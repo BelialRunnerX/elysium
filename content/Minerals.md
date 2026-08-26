@@ -4,7 +4,7 @@
 
 ## Overview
 
-Minerals are the raw material resources extracted from planets. There are approximately 20 distinct sci-fi minerals in the Sleeping Empire universe, each with different rarity, value, and uses.
+Minerals are raw material resources extracted from planets. There are approximately 20 distinct sci-fi minerals, each with different rarity, value, and uses.
 
 ## Role in the Game
 
@@ -14,6 +14,6 @@ Minerals are the raw material resources extracted from planets. There are approx
 
 ## Mineral Generation
 
-Each planet has a percentage value for each mineral type, generated via multi-dimensional noise during universe creation. Minerals only become available as loot if their percentage exceeds a defined threshold on that planet.
+Each planet has a percentage value for each mineral type, generated via multi-dimensional noise. Minerals only become available if their percentage exceeds a defined threshold.
 
 See also: [[Resources]], [[Planet]], [[Loot_System]]

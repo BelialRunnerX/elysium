@@ -4,19 +4,19 @@
 
 ## Overview
 
-Resources are a broad category that includes both material goods and abstract forms of value. They are essential for survival, progression, and influence in the Sleeping Empire.
+Resources are a broad category that includes both material goods and abstract forms of value. They are essential for survival, progression, and influence.
 
 ## Types of Resources
 
 ### Material Resources
-- **Minerals** — 20+ sci-fi minerals used for crafting, upgrading gear, and trading
-- **Food** — Required for long-term survival and crew morale
-- **Fuel** — Needed for travel between star systems and planets
+- **Minerals** — 20+ sci-fi minerals used for crafting and upgrading gear
+- **Food** — Required for long-term survival
+- **Fuel** — Needed for travel
 
 ### Abstract Resources
-- **Credits** — Universal currency used for trading and services
-- **Influence** — Political capital with factions and powerful NPCs
-- **Scriptures** — Lore fragments that can provide knowledge or unlock opportunities
+- **Credits** — Universal currency
+- **Influence** — Political capital with factions
+- **Scriptures** — Lore fragments that provide knowledge or unlock opportunities
 
 ## Relationship to Other Systems
 
