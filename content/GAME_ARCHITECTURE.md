@@ -1,194 +1,43 @@
-# Sleeping Empire – Game Architecture v1
+# Elysium – Game Architecture
 
-## 1. Project Vision
+## Overview
 
-**Genre**: 2D Roguelite (browser-based)  
-**Art Style**: 8-bit / Terraria-inspired (pixelated, charming, retro-modern)  
-**Core Loop**: Explore → Loot → Gear Up → Repeat  
-**Player Fantasy**: An ambitious wanderer with no fixed allegiance, driven by the pursuit of power in a vast, ancient empire.
+Elysium is built on an **Entity Component System (ECS)** architecture. There are no traditional classes such as `Player`, `Planet`, or `Armor`. Instead, every object in the game is an **Entity** (an ID) that possesses zero or more **Components**. **Systems** operate on entities that have the required components.
 
-**Key Pillars**:
-- Deep, meaningful gear systems (Armor, Weapons, Psionics)
-- Procedural exploration with both peaceful and hostile encounters
-- Finite dungeons inside an infinite-feeling world
-- Lore as flavorful inspiration rather than strict mechanics
+This design allows for maximum flexibility, data-oriented performance, and clean separation of concerns.
 
----
+See also: [[ARCHITECTURE_PSEUDOCODE]], [[ECS_Overview]]
 
-## 2. World Structure
+## Core Principles
 
-### 2.1 Overworld
-- Large / infinite-feeling procedural map
-- Multiple location types with different encounter probabilities
-- Dungeon entrances scattered across the map
+- **Entities** are simple IDs.
+- **Components** hold all data (Position, Health, Armor, Weapon, etc.).
+- **Systems** contain all logic (Movement System, Combat System, Loot System, etc.).
+- Systems only operate on entities that have the components they require.
 
-### 2.2 Dungeons
-- Finite, procedural, room-based
-- Higher risk / higher reward
-- Clear entry and exit points
+## Major Entity Types
 
-### 2.3 Scriptures
-- Collectible lore fragments
-- Can appear as loot or special rewards
-- Provide world flavor and occasional mechanical hints
+- [[Player_Character]]
+- [[NPC]]
+- [[Planet]]
+- [[Star]]
 
----
+## Major Component Categories
 
-## 3. Core Systems
+- **Core Components**: Position, Health, Power, Stats
+- **Equipment Components**: [[Armor]], [[Weapon]], [[Psionic]]
+- **World Components**: [[Minerals]], [[Resources]]
+- **Progression Components**: Inventory, Scriptures
 
-### 3.1 Character Stats
-- Strength
-- Reflexes
-- Intelligence
-- Willpower
-- Presence
+## Major Systems
 
-**Pseudo Code**:
-```pseudo
-function resolveEvent(stat, difficulty):
-    if stat >= difficulty:
-        return success
-    else:
-        return failure with consequence
-```
+- [[Combat_System]]
+- [[Loot_System]]
+- [[Movement_System]]
+- [[Rendering_System]]
 
-### 3.2 Armor System
-- Tiers: Common → Uncommon → Rare → Epic → Legendary
-- Stats: Armor (flat + %), Health (flat + %), Movement Speed (%)
-- Elemental Affinity (Void, Plasma, Neural, Dimensional, Kinetic)
-- Rune slots (2–3 per piece)
+## World Generation
 
-**Pseudo Code**:
-```pseudo
-function calculateEffectiveArmor(armor, incomingElement):
-    base = armor.baseArmor + armor.flatBonus
-    percent = base * (1 + armor.percentBonus)
-    
-    if armor.element == incomingElement:
-        percent *= 1.15  // resistance bonus
-    
-    return percent
-```
+The universe is generated from a seed using multi-dimensional noise. Stars, planets, and minerals are placed based on threshold values.
 
-### 3.3 Weapons System
-- Tiers + Elemental Type
-- Damage (flat + %)
-- Fire Rate (attacks per turn)
-- Effectiveness vs armor types (bonus damage against mismatched elements)
-
-**Pseudo Code**:
-```pseudo
-function calculateWeaponDamage(weapon, targetArmor):
-    damage = weapon.baseDamage * (1 + weapon.percentBonus)
-    
-    if weapon.element != targetArmor.element:
-        damage *= 1.25
-    
-    return damage
-```
-
-### 3.4 Psionics System
-- Same elemental types as weapons/armor
-- Can be used offensively or defensively
-- Should have synergies and counters with gear
-
----
-
-## 4. Loot & Progression
-
-- Fully randomized loot generation (no hand-crafted items)
-- Every item has: Tier, Element, Stats, Possible Runes
-- Runes provide meaningful modifiers (flat/percent bonuses, elemental resistance, special effects)
-
-**Pseudo Code**:
-```pseudo
-function generateLoot():
-    tier = randomTier()
-    element = randomElement()
-    type = random(Armor, Weapon)
-    
-    item = createItem(type, tier, element)
-    item.runes = generateRunes(1–3)
-    
-    return item
-```
-
----
-
-## 5. Encounters
-
-### 5.1 Encounter Types
-- Hostile (Combat)
-- Peaceful (Trade, Dialogue, Information)
-- Exploration / Mystery
-- Psionic / Dimensional events
-
-### 5.2 Resolution Paths
-Each encounter should support multiple approaches:
-- Combat
-- Social / Charisma
-- Intelligence / Knowledge
-- Psionics
-- Gear-based solutions
-
-**Pseudo Code**:
-```pseudo
-function resolveEncounter(encounter, character):
-    if character.hasMatchingElement(encounter):
-        return bonusOutcome
-    
-    if character.stats.intelligence >= encounter.difficulty:
-        return smartSolution
-    
-    return defaultOutcome
-```
-
----
-
-## 6. Map & Movement
-
-- 2D grid-based overworld
-- Tap-to-move + keyboard support (mobile friendly)
-- Fog of War + discovered tiles
-- Pathfinding for fast travel
-- Dungeon entrances that transition the player into a separate dungeon map
-
----
-
-## 7. Technical Requirements (Browser Game)
-
-- Must be fully playable in a modern browser
-- No installation required
-- Save/Load system (localStorage or file export)
-- Responsive (works well on desktop and mobile)
-
----
-
-## 8. Current Implementation Status
-
-| System              | Status          | Notes |
-|---------------------|------------------|-------|
-| Movement            | Implemented     | Keyboard + Tap-to-move |
-| Basic UI            | Implemented     | Stats + Inventory display |
-| Loot Generation     | Implemented     | Randomized armor/weapons |
-| Encounters          | Implemented     | Hostile + Peaceful |
-| Dungeon System      | Implemented     | Entry/Exit + procedural generation |
-| Visuals             | Improved        | Modern retro style |
-| Save System         | Not yet         | Planned |
-| Deep Psionics       | Partial         | Elements exist, full system pending |
-| Runes               | Basic           | Slots exist, effects limited |
-
----
-
-## 9. Next Development Priorities
-
-1. **Save/Load System**
-2. **Deeper Psionics System**
-3. **Improved Combat Resolution**
-4. **Scriptures / Lore Collection**
-5. **More Dungeon Variety**
-6. **Balancing & Polish**
-
----
-
-*This document serves as the living architecture spec for Elysium.*
+See also: [[Universe_Generation]]
