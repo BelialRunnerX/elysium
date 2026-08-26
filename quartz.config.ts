@@ -1,5 +1,4 @@
 import { QuartzConfig } from "./quartz/cfg"
-import { getAllPages } from "./quartz/plugins/vfile"
 import { Plugin } from "./quartz/plugin"
 
 const config: QuartzConfig = {
@@ -17,32 +16,32 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Schibsted Grotesk",
-        body: "Source Sans Pro",
+        header: "Cinzel",
+        body: "Inter",
         code: "IBM Plex Mono",
       },
       colors: {
         lightMode: {
-          light: "#faf8f8",
-          lightgray: "#e5e5e5",
-          gray: "#b8b8b8",
-          darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#284b63",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
+          light: "#0a0c14",
+          lightgray: "#1a1f2e",
+          gray: "#4a5568",
+          darkgray: "#a0aec0",
+          dark: "#e2e8f0",
+          secondary: "#10b981",      // Emerald
+          tertiary: "#34d399",       // Light emerald
+          highlight: "rgba(16, 185, 129, 0.15)",
+          textHighlight: "#10b98133",
         },
         darkMode: {
-          light: "#161618",
-          lightgray: "#393639",
-          gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
+          light: "#0a0c14",
+          lightgray: "#1a1f2e",
+          gray: "#4a5568",
+          darkgray: "#a0aec0",
+          dark: "#e2e8f0",
+          secondary: "#10b981",      // Emerald
+          tertiary: "#34d399",
+          highlight: "rgba(16, 185, 129, 0.15)",
+          textHighlight: "#10b98133",
         },
       },
     },
@@ -55,7 +54,7 @@ const config: QuartzConfig = {
       }),
       Plugin.SyntaxHighlighting({
         theme: {
-          light: "github-light",
+          light: "github-dark",
           dark: "github-dark",
         },
         keepBackground: false,
