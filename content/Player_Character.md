@@ -5,6 +5,8 @@
 
 ## Overview
 
+See also: [[Resources]], [[Minerals]]
+
 The player character is an ambitious wanderer with no fixed allegiance. Their defining trait is the drive to grow stronger through wealth, technology, psionics, or political connections.
 
 ## Components

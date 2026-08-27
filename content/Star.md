@@ -4,6 +4,8 @@
 
 ## Overview
 
+See also: [[StarSystem]], [[Planet]]
+
 Stars are the primary light sources and gravitational centers of star systems. They are generated based on the "star-ness" value from the multi-dimensional noise map.
 
 ## Components

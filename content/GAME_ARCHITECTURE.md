@@ -2,6 +2,8 @@
 
 ## Overview
 
+See also: [[Player_Character]], [[NPC]], [[Structures]]
+
 Elysium is built on an **Entity Component System (ECS)** architecture. There are no traditional classes such as `Player`, `Planet`, or `Armor`. Instead, every object in the game is an **Entity** (an ID) that possesses zero or more **Components**. **Systems** operate on entities that have the required components.
 
 This design allows for maximum flexibility, data-oriented performance, and clean separation of concerns.

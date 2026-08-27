@@ -4,6 +4,8 @@
 
 ## Overview
 
+See also: [[Resources]]
+
 Minerals are raw material resources extracted from planets. There are approximately 20 distinct sci-fi minerals, each with different rarity, value, and uses.
 
 ## Role in the Game

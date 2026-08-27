@@ -4,6 +4,8 @@
 
 ## Overview
 
+See also: [[Minerals]], [[Loot_System]]
+
 Resources are a broad category that includes both material goods and abstract forms of value. They are essential for survival, progression, and influence.
 
 ## Types of Resources

@@ -4,6 +4,8 @@
 
 ## Overview
 
+See also: [[StarSystem]], [[Planet]]
+
 Clicking on a planet in the 2D space map transitions the player into a 3D view of that planet's surface or orbit. This allows for deeper exploration, resource scanning, and potential planetary missions.
 
 ## Components

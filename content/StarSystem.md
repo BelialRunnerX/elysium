@@ -4,6 +4,8 @@
 
 ## Overview
 
+See also: [[Star]], [[Planet]], [[3D_Planet_Viewer]]
+
 A Star System is a high-level container entity that groups together stars, planets, and other celestial bodies. It is generated procedurally from the universe seed using multi-dimensional noise.
 
 ## Components

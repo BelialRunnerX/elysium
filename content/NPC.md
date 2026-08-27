@@ -4,6 +4,8 @@
 
 ## Overview
 
+See also: [[Player_Character]], [[Resources]]
+
 NPCs represent all other intelligent beings the player can interact with. They range from powerful faction leaders to desperate traders and hostile entities.
 
 ## Components
