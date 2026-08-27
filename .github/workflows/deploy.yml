@@ -1,8 +1,10 @@
-name: Deploy Quartz site
+name: Deploy Quartz site to GitHub Pages
 
 on:
   push:
-    branches: [master, main]
+    branches:
+      - master
+      - main
   workflow_dispatch:
 
 permissions:
@@ -16,20 +18,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install Quartz
+      - name: Install dependencies
         run: npm install quartz
 
       - name: Build Quartz
-        run: npx quartz build
+        run: ./node_modules/.bin/quartz build
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          publish_branch: master
-          keep_files: false
+          publish_branch: gh-pages
