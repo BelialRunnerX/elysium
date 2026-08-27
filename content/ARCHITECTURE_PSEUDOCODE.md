@@ -2,45 +2,39 @@
 
 ## 1. High-Level Architecture
 
-**Core Idea**: Everything in the game is built using an **Entity Component System (ECS)**. There are no traditional classes for "Player", "Planet", or "Armor". Instead, entities are just IDs that hold collections of components.
+**Core Idea**: Elysium is a triple A voxel-based game using an **Entity Component System (ECS)**. Everything — from the player to planets and even individual voxels — is represented through entities and components.
 
 ```pseudo
 Universe
-├── Seed (uint64)
+├── Seed
 ├── Noise Generator (Multi-dimensional)
-├── Entities (Stars, Planets, Player, Loot, etc.)
-└── Systems (Movement, Combat, Loot, Rendering, etc.)
+├── Entities (Player, NPCs, Planets, Stars, Voxels, Structures...)
+└── Systems (Movement, Combat, Loot, Voxel Rendering, etc.)
 ```
 
-**Key Principle**: Systems operate on entities that have the required components. This allows maximum flexibility and decoupling.
+## 2. Component Attachment Rules
 
-## 2. Core Components
+- **Irrelevant components** are **not attached**.
+- **Optional components** may be attached but can be set to `null` when not in use.
 
-### 2.1 Position Component
+## 3. Core Components
 
+### Position Component
 ```pseudo
 struct Position {
-    float x
-    float y
+    float x, y, z
 }
 ```
 
-**Explanation**: Almost every physical object in the game has a `Position` component. This allows the Movement System, Rendering System, and Collision System to all work on the same data.
-
-### 2.2 Renderable Component
-
+### Voxel Component
 ```pseudo
-struct Renderable {
-    string spriteName
-    int layer
-    bool visible
+struct Voxel {
+    int type
+    float density
 }
 ```
 
-**Explanation**: Controls how an entity appears on screen. The `layer` helps with draw order.
-
-### 2.3 Planet Component
-
+### Planet Component
 ```pseudo
 struct Planet {
     float planetNess
@@ -48,121 +42,73 @@ struct Planet {
 }
 ```
 
-**Explanation**: Stores the core data that defines a planet. The `mineralPercentages` array is the source of truth for loot generation.
-
-### 2.4 Armor Component
-
+### Armor Component
 ```pseudo
 struct Armor {
     string name
     int tier
-    float armorFlat
-    float armorPercent
-    float healthFlat
-    float healthPercent
+    float armorFlat, armorPercent
+    float healthFlat, healthPercent
     float movementSpeedPercent
     int element
     array<Rune> runes
 }
 ```
 
-**Explanation**: Armor is a component. Any entity can have it. Stats are split into flat and percentage values.
-
-### 2.5 Weapon Component
-
+### Weapon Component
 ```pseudo
 struct Weapon {
     string name
     int tier
-    float damageFlat
-    float damagePercent
+    float damageFlat, damagePercent
     float fireRate
     int element
 }
 ```
 
-**Explanation**: Similar to armor. The `element` field is critical for combat calculations.
-
-### 2.6 Psionic Component
-
+### Psionic Component
 ```pseudo
 struct Psionic {
     int element
     float power
     float cooldown
-    string abilityName
 }
 ```
 
-**Explanation**: Psionics are treated as another form of ability/equipment.
-
-## 3. Component Attachment Rules
-
-- **Irrelevant components** are **not attached**.
-- **Optional components** may be attached but can be set to `null` when not in use.
-
-## 4. Systems and Their Interactions
-
-### 4.1 Combat System
-
-```pseudo
-function resolveAttack(attacker, target):
-    if attacker has Weapon and target has Armor:
-        // Calculate damage with elemental modifiers
-        // Apply armor reduction
-        // Apply critical hits if applicable
-```
-
-### 4.2 Loot Generation System
-
-```pseudo
-function generateLoot(planet):
-    minerals = planet.get<Minerals>()
-    for each mineral in minerals:
-        if mineral.percentage > MINERAL_THRESHOLD:
-            createLootItem(mineral)
-```
-
-### 4.3 Movement System
-
-```pseudo
-function moveEntity(entity, dx, dy):
-    if entity has Position and not has Immobilized:
-        pos = entity.get<Position>()
-        pos.x += dx
-        pos.y += dy
-```
-
-## 5. Noise-Based Universe Generation
+## 4. Universe Generation
 
 ```pseudo
 function generateUniverse(seed):
     noise = FastNoise(seed)
-    for x in universeWidth:
-        for y in universeHeight:
-            starValue   = noise.GetValue(x, y, 0)
-            planetValue = noise.GetValue(x, y, 1)
-            
-            if starValue > STAR_THRESHOLD:
-                createStarEntity(x, y, starValue)
-            
-            if planetValue > PLANET_THRESHOLD:
-                createPlanetEntity(x, y, planetValue)
+    
+    for x, y in universeMap:
+        starValue = noise.GetValue(x, y, 0)
+        planetValue = noise.GetValue(x, y, 1)
+        
+        if starValue > STAR_THRESHOLD:
+            createStar(x, y, starValue)
+        
+        if planetValue > PLANET_THRESHOLD:
+            createPlanet(x, y, planetValue)
 ```
 
-## 6. Rendering System (2D Map)
+## 5. Voxel Planet Rendering
 
 ```pseudo
-function renderMap():
-    for each entity with Position + Renderable:
-        if entity has Star:
-            drawStarSprite(entity.position)
-        else if entity has Planet:
-            drawPlanetSprite(entity.position, entity.get<Planet>().minerals)
+function generatePlanetVoxels(planet):
+    for x, y, z in planetVolume:
+        density = noise.GetValue(x, y, z, planet.seed)
+        if density > THRESHOLD:
+            createVoxelEntity(x, y, z, density)
 ```
 
-## 7. Condition-Based System Interaction
+## 6. Combat System
 
-In this architecture, the presence or absence of components determines which systems affect an entity. This creates a natural "hyperlink" between components and systems.
+```pseudo
+function resolveAttack(attacker, target):
+    if attacker has Weapon and target has Armor:
+        damage = calculateDamage(attacker.get<Weapon>(), target.get<Armor>())
+        target.get<Health>().current -= damage
+```
 
 See also: [[GAME_ARCHITECTURE]], [[Player_Character]], [[Armor]], [[Weapon]], [[Psionic]]

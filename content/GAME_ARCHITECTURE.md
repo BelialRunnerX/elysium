@@ -2,50 +2,70 @@
 
 ## Overview
 
-See also: [[Player_Character]], [[NPC]], [[Structures]]
+Elysium is a **triple A voxel-based video game** built with an **Entity Component System (ECS)** architecture. It features a single massive procedural universe with deep systems for armor, weapons, and psionics.
 
-Elysium is built on an **Entity Component System (ECS)** architecture. There are no traditional classes such as `Player`, `Planet`, or `Armor`. Instead, every object in the game is an **Entity** (an ID) that possesses zero or more **Components**. **Systems** operate on entities that have the required components.
+The game draws inspiration from modded Minecraft but aims for **UE5-level voxel depth** and **disgustingly good optimization**.
 
-This design allows for maximum flexibility, data-oriented performance, and clean separation of concerns.
+## Core Philosophy
+
+- Everything is an **Entity** with **Components**.
+- Systems operate only on entities that have the required components.
+- Irrelevant components are not attached.
+- Optional components can be null when not in use.
 
 See also: [[ARCHITECTURE_PSEUDOCODE]], [[ECS_Overview]]
 
-## Core Principles
+## World Structure
 
-- **Entities** are simple IDs.
-- **Components** hold all data (Position, Health, Armor, Weapon, etc.).
-- **Systems** contain all logic (Movement System, Combat System, Loot System, Rendering System, etc.).
-- Systems only operate on entities that have the required components.
+### Universe
+- Single massive procedural universe
+- Generated from a single seed using multi-dimensional noise
+- Contains star systems, planets, and resources
 
-## Component Attachment Rules
+### Star Systems
+- Procedurally generated
+- Contain stars, planets, and asteroid fields
+- Visible on a 2D space map when "star-ness" exceeds threshold
 
-- **Irrelevant components** are **not attached** to an entity.
-- **Optional components** may be attached but can hold a `null` value when not in use.
+### Planets
+- Voxel-based terrain with high detail
+- Generated based on "planet-ness" and mineral data
+- Support for 3D exploration and interaction
 
-## Major Entity Types
+### Resources & Minerals
+- 20+ sci-fi minerals with percentage distribution per planet
+- Broader resource system including food, fuel, credits, and influence
 
-- [[Player_Character]]
-- [[NPC]]
-- [[Planet]]
-- [[Star]]
-- [[Structures]]
+See also: [[StarSystem]], [[Planet]], [[Resources]], [[Minerals]], [[Universe_Generation]]
 
-## Major Component Categories
+## Core Systems
 
-- **Core Components**: Position, Health, Power, Stats
-- **Equipment Components**: [[Armor]], [[Weapon]], [[Psionic]]
-- **World Components**: [[Minerals]], [[Resources]]
-- **Progression Components**: Inventory, Scriptures
+### Character Stats
+- Strength, Reflexes, Intelligence, Willpower, Presence
 
-## Major Systems
+### Armor System
+- Tiers, elemental affinities, rune slots, flat + percentage stats
 
-- [[Combat_System]]
-- [[Loot_System]]
-- [[Movement_System]]
-- [[Rendering_System]]
+### Weapons System
+- Tiers, elemental damage, fire rate, effectiveness vs armor
 
-## World Generation
+### Psionics System
+- Elemental abilities with synergies and counters
 
-The universe is generated from a seed using multi-dimensional noise. Stars, planets, and minerals are placed based on threshold values.
+See also: [[Armor]], [[Weapon]], [[Psionic]], [[Combat_System]]
 
-See also: [[Universe_Generation]]
+## Technical Foundation
+
+- **Language**: C++
+- **Architecture**: Entity Component System (EnTT or similar)
+- **Rendering**: High-fidelity voxel rendering with UE5-level quality and optimization
+- **World Generation**: Multi-dimensional noise for stars, planets, and resources
+
+## Current Focus Areas
+
+- Procedural universe generation
+- Voxel planet rendering and interaction
+- Deep gear and psionics systems
+- Efficient ECS implementation for large-scale worlds
+
+See also: [[ARCHITECTURE_PSEUDOCODE]]
